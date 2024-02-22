@@ -1,14 +1,9 @@
 import "./App.scss";
-import { Canvas } from "./components/Canvas";
-import { PhysicsCanvas } from "./components/PhysicsCanvas";
+import Main from "./pages/Main";
 
 function App() {
     return (
-        <>
-            {/* <Canvas /> */}
-            <h1>Light Tetris</h1>
-            <PhysicsCanvas />
-        </>
+        <Main />
     );
 }
 
