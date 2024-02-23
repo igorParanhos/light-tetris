@@ -1,9 +1,4 @@
-import { TPiece } from "./pieces/TPiece";
-import { LPiece } from "./pieces/LPiece";
-import { IPiece } from "./pieces/IPiece";
-import { JPiece } from "./pieces/JPiece";
-import { OPiece } from "./pieces/OPiece";
-import { SPiece } from "./pieces/SPiece";
+import { TPiece, LPiece, IPiece, JPiece, OPiece, SPiece } from "./pieces";
 import {
     COLOR_GRAY100,
     COLOR_GRAY200,

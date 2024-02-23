@@ -1,6 +1,6 @@
-import { IPiece } from "./IPiece";
-import { JPiece } from "./JPiece";
-import { LPiece } from "./LPiece";
-import { OPiece } from "./OPiece";
-import { SPiece } from "./SPiece";
-import { TPiece } from "./TPiece";
+export { IPiece } from "./IPiece";
+export { JPiece } from "./JPiece";
+export { LPiece } from "./LPiece";
+export { OPiece } from "./OPiece";
+export { SPiece } from "./SPiece";
+export { TPiece } from "./TPiece";

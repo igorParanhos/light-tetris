@@ -1,7 +1,7 @@
 import styles from "./Main.module.scss";
 import { PhysicsCanvas } from "../../components/PhysicsCanvas";
-import { GameContext, useGameContext } from "../../context/GameContext";
-import { Show, useContext } from "solid-js";
+import { useGameContext } from "../../context/GameContext";
+import { Show } from "solid-js";
 
 const Header = () => {
     return (

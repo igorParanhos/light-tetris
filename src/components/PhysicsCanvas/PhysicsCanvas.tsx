@@ -1,8 +1,8 @@
-import { createEffect, onCleanup, onMount, useContext } from "solid-js";
+import { createEffect, onCleanup, onMount } from "solid-js";
 import { clamp, createRandomPiece, getRandomColor } from "./utils";
 import { PhysicsController } from "./PhysicsController";
 import styles from "./PhysicsCanvas.module.scss";
-import { GameContext, useGameContext } from "../../context/GameContext";
+import { useGameContext } from "../../context/GameContext";
 
 export const createScenario = (controller: PhysicsController) => {
     const ground = controller.createGround(
