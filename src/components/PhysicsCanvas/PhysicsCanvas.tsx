@@ -1,7 +1,8 @@
-import { onCleanup, onMount } from "solid-js";
+import { createEffect, onCleanup, onMount, useContext } from "solid-js";
 import { clamp, createRandomPiece, getRandomColor } from "./utils";
-import styles from "./PhysicsCanvas.module.scss";
 import { PhysicsController } from "./PhysicsController";
+import styles from "./PhysicsCanvas.module.scss";
+import { GameContext, useGameContext } from "../../context/GameContext";
 
 export const createScenario = (controller: PhysicsController) => {
     const ground = controller.createGround(
@@ -31,43 +32,58 @@ export const PhysicsCanvas = () => {
     let controller: PhysicsController | undefined;
     let updateInterval: number | undefined;
     let cancelLoop: () => void;
+    // const { state, setState } = useGameContext();
+    const { state, setScore } = useGameContext();
 
-    onMount(() => {
-        controller = new PhysicsController(canvasRef!);
-        createScenario(controller);
-        controller.run();
+    createEffect(() => {
+        if (state.state === "playing") {
+            controller = new PhysicsController(canvasRef!);
+            createScenario(controller);
+            controller.run();
 
-        updateInterval = setInterval(() => {
-            cancelLoop?.();
-            const mousePosition = controller?.mouse.position;
-
-            const piece = createRandomPiece(
-                clamp(
-                    controller?.percentToPx(25, "x") || 0,
-                    mousePosition?.x || Math.random() * 100,
-                    controller?.percentToPx(75, "x") || 1000
-                ),
-                -100,
-                getRandomColor()
-            );
-            controller?.addBodies([piece]);
-
-            cancelLoop = controller!.onTick(() => {
-                console.log('ticking')
+            updateInterval = setInterval(() => {
+                cancelLoop?.();
+                // setState("score", (score) => score + 1);
+                setScore((score) => score + 1);
                 const mousePosition = controller?.mouse.position;
-                piece.position.x = clamp(
-                    controller?.percentToPx(25, "x") || 0,
-                    mousePosition?.x || Math.random() * 100,
-                    controller?.percentToPx(75, "x") || 1000
+
+                const piece = createRandomPiece(
+                    clamp(
+                        controller?.percentToPx(25, "x") || 0,
+                        mousePosition?.x || Math.random() * 100,
+                        controller?.percentToPx(75, "x") || 9999
+                    ),
+                    -100,
+                    getRandomColor()
                 );
-            });
-        }, 1000);
+                controller?.addBodies([piece]);
+
+                cancelLoop = controller!.onTick(() => {
+                    const mousePosition = controller?.mouse.position;
+                    piece.position.x = clamp(
+                        controller?.percentToPx(25, "x") || 0,
+                        mousePosition?.x || Math.random() * 100,
+                        controller?.percentToPx(75, "x") || 9999
+                    );
+                });
+            }, 1000);
+        }
+        return () => {
+            controller?.destroy();
+            clearInterval(updateInterval);
+        };
     });
+
+    onMount(() => {});
 
     onCleanup(() => {
         controller?.destroy();
         clearInterval(updateInterval);
     });
 
-    return <canvas class={styles.container} ref={canvasRef} />;
+    return (
+        <>
+            <canvas class={styles.container} ref={canvasRef} />
+        </>
+    );
 };

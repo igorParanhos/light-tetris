@@ -1,9 +1,12 @@
 import "./App.scss";
+import { GameProvider } from "./context/GameContext";
 import Main from "./pages/Main";
 
 function App() {
     return (
-        <Main />
+        <GameProvider>
+            <Main />
+        </GameProvider>
     );
 }
 
