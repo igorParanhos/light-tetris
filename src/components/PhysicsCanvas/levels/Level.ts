@@ -3,6 +3,8 @@ import { PhysicsController } from "../PhysicsController";
 export abstract class Level {
     levelName: string;
     levelDescription: string;
+    initialized: boolean = false;
+    destroyed: boolean = false;
 
     constructor(name: string, description: string) {
         this.levelName = name;
