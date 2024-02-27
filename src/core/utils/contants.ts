@@ -1,6 +1,6 @@
-export const WORLD_GRAVITY = 0.8;
-export const RESTITUTION = 0.1;
-export const FRICTION = 0.1;
+export const WORLD_GRAVITY = 1;
+export const RESTITUTION = 0.2;
+export const FRICTION = 0.4;
 
 export const COLOR_GREEN = "#D4EBCC";
 export const COLOR_PURPLE = "#D4DAEF";

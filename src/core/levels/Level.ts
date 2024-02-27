@@ -1,4 +1,4 @@
-import { PhysicsController } from "../PhysicsController";
+import { PhysicsController } from "../controller/PhysicsController";
 
 export abstract class Level {
     levelName: string;

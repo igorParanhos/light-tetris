@@ -1,8 +1,13 @@
 import { Bodies } from "matter-js";
-import { PhysicsController } from "../PhysicsController";
-import { clamp, createRandomPiece, getRandomColor } from "../utils";
+import { PhysicsController } from "../controller/PhysicsController";
+import { clamp, createRandomPiece, pickRandom } from "../utils/utils";
 import { Level } from "./Level";
-import { COLOR_GREEN100, FRICTION } from "../contants";
+import {
+    COLOR_GREEN100,
+    COLOR_PURPLE,
+    COLOR_RED100,
+    FRICTION,
+} from "../utils/contants";
 
 const createGround = (
     x: number,
@@ -24,7 +29,7 @@ const createGround = (
     return obj;
 };
 
-export const createScenario = (controller: PhysicsController) => {
+const createScenario = (controller: PhysicsController) => {
     const ground = createGround(
         controller.percentToPx(50, "x"),
         controller.percentToPx(90, "y") - 60,
@@ -47,6 +52,8 @@ export const createScenario = (controller: PhysicsController) => {
     controller.addBodies([ground, wall1, wall2]);
 };
 
+const getColor = () => pickRandom([COLOR_GREEN100, COLOR_PURPLE, COLOR_RED100]);
+
 export class Level0 extends Level {
     _interval: number | undefined;
     _cancelLoop: () => void = () => {};
@@ -58,13 +65,13 @@ export class Level0 extends Level {
     }
 
     createLevel(controller: PhysicsController): void {
+        console.log("creating level");
         createScenario(controller);
 
         this._interval = setInterval(() => {
             this._cancelLoop?.();
-            // setState("score", (score) => score + 1);
             const mousePosition = controller?.mouse.position;
-
+            controller.score.value++;
             const piece = createRandomPiece(
                 clamp(
                     controller?.percentToPx(25, "x") || 0,
@@ -72,7 +79,7 @@ export class Level0 extends Level {
                     controller?.percentToPx(75, "x") || 9999
                 ),
                 -100,
-                getRandomColor()
+                getColor()
             );
             controller?.addBodies([piece]);
 

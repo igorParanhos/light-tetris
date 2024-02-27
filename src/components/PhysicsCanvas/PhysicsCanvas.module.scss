@@ -1,5 +1,11 @@
-.container {
+.canvas {
     width: 100vw;
     height: 100vh;
-    // border: 2px solid #A2D5CA;
+    opacity: 0;
+    transition: opacity 1s ease-out;
+    box-sizing: border-box;
+
+    &.active {
+        opacity: 1;
+    }
 }

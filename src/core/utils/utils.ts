@@ -1,4 +1,4 @@
-import { TPiece, LPiece, IPiece, JPiece, OPiece, SPiece } from "./pieces";
+import { TPiece, LPiece, IPiece, JPiece, OPiece, SPiece } from "../pieces";
 import {
     COLOR_GRAY100,
     COLOR_GRAY200,
@@ -10,6 +10,11 @@ import {
     COLOR_RED200,
     COLOR_RED300,
 } from "./contants";
+
+
+export const pickRandom = <T>(arr: T[]): T => {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
 
 export const getRandomColor = () => {
     const colors = [
@@ -26,7 +31,42 @@ export const getRandomColor = () => {
         COLOR_RED200,
         COLOR_RED300,
     ];
-    return colors[Math.floor(Math.random() * colors.length)];
+    return pickRandom(colors);
+};
+
+export type Observable = {
+    value: number;
+    subscribe: (listener: (value: number) => void) => () => void;
+    unsubscribe: (listener: (value: number) => void) => void;
+};
+
+export const createObservable = <T>(initialValue: T) => {
+    let value = initialValue;
+    const listeners: ((value: T) => void)[] = [];
+    return {
+        get value() {
+            return value;
+        },
+        set value(newValue: T) {
+            value = newValue;
+            listeners.forEach((listener) => listener(value));
+        },
+        subscribe: (listener: (value: T) => void) => {
+            listeners.push(listener);
+            return () => {
+                const index = listeners.indexOf(listener);
+                if (index !== -1) {
+                    listeners.splice(index, 1);
+                }
+            };
+        },
+        unsubscribe: (listener: (value: T) => void) => {
+            const index = listeners.indexOf(listener);
+            if (index !== -1) {
+                listeners.splice(index, 1);
+            }
+        },
+    };
 };
 
 export const clamp = (value: number, min: number, max: number) => {

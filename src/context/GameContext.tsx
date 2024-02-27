@@ -53,8 +53,8 @@ export const GameProvider: Component<GameProvider> = (props) => {
 
 export const useGameContext = () => {
     const context = useContext(Context);
-    // if (!context) {
-    //     throw new Error("useGameContext must be used within a GameProvider");
-    // }
+    if (!context) {
+        throw new Error("useGameContext must be used within a GameProvider");
+    }
     return context;
 };

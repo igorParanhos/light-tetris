@@ -1,12 +1,14 @@
 import styles from "./Main.module.scss";
 import { PhysicsCanvas } from "../../components/PhysicsCanvas";
 import { useGameContext } from "../../context/GameContext";
-import { Show } from "solid-js";
+import { Show, createEffect, createSignal } from "solid-js";
 
 const Header = () => {
+    const { state } = useGameContext();
     return (
         <header class={styles.header}>
             <h1>Light Tetris</h1>
+            <h2>Score: {state.score}</h2>
         </header>
     );
 };
@@ -34,16 +36,22 @@ const AnimatedButton = (props: any) => {
 const Controls = () => {
     // const { state, setState } = useContext(GameContext);
     const { state, setGameState } = useGameContext();
+    const [started, setStarted] = createSignal(false);
+    createEffect(() => {
+        console.log("started", started());
+
+    })
 
     return (
         <div class={styles.controls}>
             <Show when={state.state === "idle"}>
                 <AnimatedButton
+                    classList={{[styles.animatedButtonActive]: started()}}
                     onClick={() => {
-                        console.log("test");
-                        console.log(state)
-                        // setState("state", () => "playing");
-                        setGameState(() => "playing");
+                        setStarted(true);
+                        setTimeout(() => {
+                            setGameState(() => "playing");
+                        }, 1000);
                     }}
                 />
             </Show>
