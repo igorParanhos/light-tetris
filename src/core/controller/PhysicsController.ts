@@ -90,6 +90,7 @@ export class PhysicsController {
   }
 
   run() {
+    this.setupLevel();
     Render.run(this.#renderer);
     Runner.run(this.#runner, this.#engine);
   }

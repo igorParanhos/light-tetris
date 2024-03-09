@@ -1,4 +1,4 @@
-export const WORLD_GRAVITY = 1;
+export const WORLD_GRAVITY = 1.4;
 export const RESTITUTION = 0.2;
 export const FRICTION = 0.4;
 
