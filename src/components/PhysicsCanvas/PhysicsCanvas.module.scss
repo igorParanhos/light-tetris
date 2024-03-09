@@ -1,11 +1,11 @@
 .canvas {
-    width: 100vw;
-    height: 100vh;
-    opacity: 0;
-    transition: opacity 1s ease-out;
-    box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  transition: opacity 1s ease-out;
+  box-sizing: border-box;
 
-    &.active {
-        opacity: 1;
-    }
+  &.active {
+    opacity: 1;
+  }
 }

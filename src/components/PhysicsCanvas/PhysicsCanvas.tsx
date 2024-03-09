@@ -4,44 +4,44 @@ import styles from "./PhysicsCanvas.module.scss";
 import { useGameContext } from "../../context/GameContext";
 
 export const PhysicsCanvas = () => {
-    let canvasRef: HTMLCanvasElement | undefined;
-    let controller: PhysicsController | undefined;
-    let updateInterval: number | undefined;
+  let canvasRef: HTMLCanvasElement | undefined;
+  let controller: PhysicsController | undefined;
+  let updateInterval: number | undefined;
 
-    const { state, setScore } = useGameContext();
+  const { state, setScore } = useGameContext();
 
-    const updateScore = (value: number) => {
-        setScore(() => value);
+  const updateScore = (value: number) => {
+    setScore(() => value);
+  };
+
+  createEffect(() => {
+    if (state.state === "playing") {
+      controller = new PhysicsController(canvasRef!);
+      controller.run();
+      controller.score.subscribe(updateScore);
+    }
+    return () => {
+      controller?.destroy();
+      clearInterval(updateInterval);
     };
+  });
 
-    createEffect(() => {
-        if (state.state === "playing") {
-            controller = new PhysicsController(canvasRef!);
-            controller.run();
-            controller.score.subscribe(updateScore);
-        }
-        return () => {
-            controller?.destroy();
-            clearInterval(updateInterval);
-        };
-    });
+  onMount(() => {});
 
-    onMount(() => {});
+  onCleanup(() => {
+    controller?.destroy();
+    controller?.score.unsubscribe(updateScore);
 
-    onCleanup(() => {
-        controller?.destroy();
-        controller?.score.unsubscribe(updateScore);
+    clearInterval(updateInterval);
+  });
 
-        clearInterval(updateInterval);
-    });
-
-    return (
-        <>
-            <canvas
-                class={styles.canvas}
-                classList={{ [styles.active]: state.state === "playing" }}
-                ref={canvasRef}
-            />
-        </>
-    );
+  return (
+    <>
+      <canvas
+        class={styles.canvas}
+        classList={{ [styles.active]: state.state === "playing" }}
+        ref={canvasRef}
+      />
+    </>
+  );
 };
