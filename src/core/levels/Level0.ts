@@ -91,7 +91,7 @@ export class Level0 extends Level {
           controller?.percentToPx(75, "x") || 9999,
         );
       });
-    }, 1000);
+    }, 1000) as unknown as number;
     this.initialized = true;
   }
 
